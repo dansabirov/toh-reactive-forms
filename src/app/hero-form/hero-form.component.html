@@ -1,0 +1,59 @@
+<div class="container">
+  <div [hidden]="submitted">
+    <h1>Hero Form</h1>
+    <form [formGroup]="heroForm" (ngSubmit)="onSubmit()">
+      <div class="form-group">
+        <label for="name">Name</label>
+        <input type="text" class="form-control" formControlName="name">
+        
+        <div [hidden]="heroForm.get('name')?.valid || heroForm.get('name')?.pristine"
+             class="alert alert-danger">
+          Name is required
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="alterEgo">Alter Ego</label>
+        <input type="text" class="form-control" formControlName="alterEgo">
+      </div>
+
+      <div class="form-group">
+        <label for="power">Hero Power</label>
+        <select class="form-control" formControlName="power">
+          <option *ngFor="let pow of powers" [value]="pow">{{pow}}</option>
+        </select>
+        <div [hidden]="heroForm.get('power')?.valid || heroForm.get('power')?.pristine" class="alert alert-danger">
+          Power is required
+        </div>
+      </div>
+
+      <app-phone-form></app-phone-form>
+
+      <button type="submit" class="btn btn-success" [disabled]="!heroForm.valid">Submit</button>
+      <button type="button" class="btn btn-default" (click)="newHero();">New Hero</button>
+      {{heroForm.value | json}}
+    </form>
+  </div>
+
+  <div [hidden]="!submitted">
+    <h2>You submitted the following:</h2>
+    <div class="row">
+      <div class="col-xs-3">Name</div>
+      <div class="col-xs-9">{{ heroForm.value.name }}</div>
+    </div>
+    <div class="row">
+      <div class="col-xs-3">Alter Ego</div>
+      <div class="col-xs-9">{{ heroForm.value.alterEgo }}</div>
+    </div>
+    <div class="row">
+      <div class="col-xs-3">Power</div>
+      <div class="col-xs-9">{{ heroForm.value.power }}</div>
+    </div>
+    <div class="row">
+      <div class="col-xs-3">Phone</div>
+      <div class="col-xs-9">{{ heroForm.value.phone | json }}</div>
+    </div>
+    <br>
+    <button class="btn btn-primary" (click)="submitted=false">Edit</button>
+  </div>
+</div>
